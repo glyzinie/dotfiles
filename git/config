@@ -1,0 +1,36 @@
+# vim:ft=gitconfig:
+[core]
+	pager = delta
+[user]
+	name = Wis
+	email = 149991443+glyzinie@users.noreply.github.com.
+# ---
+[alias]
+	last = log -1 HEAD
+[color]
+	ui = true
+[help]
+	# type 自動修正
+	autocorrect = 1
+[interactive]
+	diffFilter = bat
+# Subcommands
+[commit]
+	template = ~/.config/git/message.txt
+[diff]
+	algorithm = histogram
+	compactionHeuristic = true
+[init]
+	defaultBranch = main
+[pull]
+	ff = only
+[push]
+	default = current
+# Third party
+[delta]
+	hunk-header-style = omit
+	line-numbers = true
+	#side-by-side = true
+[ghq]
+	user = glyzinie
+	root = ~/.local/src

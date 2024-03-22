@@ -1,0 +1,2 @@
+[credential]
+helper = store # $XDG_CONFIG_HOME/git/credentials
