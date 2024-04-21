@@ -9,11 +9,9 @@ brew "hugo"
 brew "mas"
 brew "neovim"
 brew "ripgrep"
-brew "rust"
 brew "tig"
 cask "1password"
 cask "appcleaner"
-cask "arduino-ide"
 cask "discord"
 cask "google-chrome"
 cask "microsoft-auto-update"
@@ -24,7 +22,6 @@ cask "the-unarchiver"
 cask "visual-studio-code"
 cask "vlc"
 cask "wezterm"
-mas "1Password for Safari", id: 1569813296
 mas "Apple Configurator", id: 1037126344
 mas "Magnet", id: 441258766
 mas "Tailscale", id: 1475387142

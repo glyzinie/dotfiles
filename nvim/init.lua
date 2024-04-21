@@ -4,6 +4,10 @@
 -- > go install github.com/rhysd/vim-startuptime@latest
 -- > vim-startuptime -vimpath nvim -count 100
 
+-- Note:
+-- exists(): 変数があるか
+-- executable(): コマンドがあるか
+
 -- Reset {{{
 if vim.fn.has('vim_starting') == 1 then
 	-- 高速化
@@ -45,34 +49,62 @@ local plugins = {
 		event = "VeryLazy",
 		config = function()
 			vim.cmd.colorscheme("tokyonight")
-		end,
+		end
+	},
+	-- Notify
+	{
+		"rcarriga/nvim-notify",
+		event = "VeryLazy",
+		config = function()
+			local notify = require("notify")
+			notify.setup()
+
+			vim.notify = notify
+		end
 	},
 	-- Tree sitter
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ':TSUpdate',
 		event = "VeryLazy",
-		config = function()
-			require('nvim-treesitter.configs').setup{
-				ensure_installed = "all",
-				auto_install = true,
-				highlight = {
-					enable = true,
-					disable = function(lang, buf)
-						local max_filesize = 100 * 1024 -- 100 KB
-						local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-						if ok and stats and stats.size > max_filesize then
-							return true
-						end
+		main = 'nvim-treesitter.configs',
+		opts = {
+			ensure_installed = "all",
+			auto_install = true,
+			highlight = {
+				enable = true,
+				disable = function(lang, buf)
+					local max_filesize = 100 * 1024 -- 100 KB
+					local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+					if ok and stats and stats.size > max_filesize then
+						return true
 					end
-				}
+				end
+			},
+			indent = {
+				enable = true
 			}
-		end
+		}
 	},
 	-- Language Server Protocol
 	{
 		"neovim/nvim-lspconfig",
 		event = "VeryLazy",
+		cmd = "LspInfo",
+		config = function()
+			vim.diagnostic.config({severity_sort = true})
+		end
+	},
+	{
+		"mrded/nvim-lsp-notify",
+		dependencies = {
+			"rcarriga/nvim-notify"
+		},
+		config = function()
+			require('lsp-notify').setup({
+				notify = require('notify'),
+			})
+		end
 	},
 	{
 		"williamboman/mason.nvim",
@@ -81,46 +113,121 @@ local plugins = {
 			"neovim/nvim-lspconfig"
 		},
 		event = 'BufReadPre',
-		cmd = {"Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonUpdate"},
-		config = true
-	},
-	{
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
-		dependencies = {
-			"williamboman/mason.nvim"
+		cmd = {
+			"Mason",
+			"MasonInstall",
+			"MasonUninstall",
+			"MasonUninstallAll",
+			"MasonUpdate"
 		},
-		cmd = {"MasonToolsInstall", "MasonToolsUpdate", "MasonToolsClean"},
-		ft = "lua",
 		opts = {
-			ensure_installed = {
-				"stylua", -- Lua formatter
-			},
-			auto_update = true
+			ui = {
+				check_outdated_packages_on_open = false,
+				border = 'single',
+			}
 		}
 	},
 	{
+		"RubixDev/mason-update-all",
+		dependencies = {
+			"williamboman/mason.nvim"
+		},
+		cmd = "MasonUpdateAll"
+	},
+	{ -- LSP
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = {
 			"williamboman/mason.nvim"
 		},
 		cmd = {"LspInstall", "LspUninstall"},
-		ft = {"deno", "go", "lua"},
+		config = function()
+			require('mason-lspconfig').setup{
+				automatic_installation = true,
+				ensure_installed = {
+					'denols',
+					'lua_ls'
+				}
+			}
+			require('mason-lspconfig').setup_handlers{
+				function(server_name)
+					require('lspconfig')[server_name].setup({})
+				end,
+				["lua_ls"] = function ()
+					lspconfig.lua_ls.setup {
+						settings = {
+							Lua = {
+								diagnostics = {
+									globals = { "vim" }
+								}
+							}
+						}
+					}
+				end
+			}
+		end
+	},
+	{
+		"nvimtools/none-ls.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim"
+		},
+		main = "null-ls",
+		config = function()
+			local null_ls = require("null-ls")
+			null_ls.setup({
+				sources = {
+					-- https://github.com/nvimtools/none-ls.nvim/blob/main/doc/BUILTINS.md
+					null_ls.builtins.completion.spell,
+					null_ls.builtins.diagnostics.todo_comments,
+					null_ls.builtins.diagnostics.trail_space,
+					null_ls.builtins.hover.dictionary,
+				}
+			})
+		end
+	},
+	{ -- Linters, Formatters
+		'jay-babu/mason-null-ls.nvim',
+		event = { 'BufReadPre', 'BufNewFile' },
+		dependencies = {
+			"williamboman/mason.nvim",
+			'nvimtools/none-ls.nvim',
+		},
 		opts = {
-			ensure_installed = {
-				'denols', -- Deno
-				'gopls', -- Golang
-				'lua_ls', -- Lua
-			},
-			automatic_installation = true
+			handlers = {}
 		}
+	},
+	{ -- TODO: 要検討
+		"folke/trouble.nvim",
+		dependencies = {
+			"nvim-tree/nvim-web-devicons"
+		},
+		cmd = {"Trouble", "TroubleToggle"},
+		config = true
+	},
+	{ -- TODO: 要検討
+		"nvimdev/lspsaga.nvim",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons"
+		},
+		cmd = "Lspsaga",
+		config = true
 	},
 	-- View
 	{
-		"sitiom/nvim-numbertoggle",
-		event = {"BufNewFile", "BufRead"}
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify"
+		},
+		config = true
 	},
-	{ -- Git
-		"lewis6991/gitsigns.nvim",
+	{
+		"akinsho/bufferline.nvim",
+		dependencies = {
+			"nvim-tree/nvim-web-devicons"
+		},
 		event = {"BufNewFile", "BufRead"},
 		config = true
 	},
@@ -128,44 +235,44 @@ local plugins = {
 		"nvim-lualine/lualine.nvim",
 		dependencies = {
 			"folke/tokyonight.nvim",
-			{
-				"kyazdani42/nvim-web-devicons",
-				config = true
-			}
+			"nvim-tree/nvim-web-devicons"
 		},
 		event = {"BufNewFile", "BufRead"},
 		opts = {
 			options = {
 				theme = 'tokyonight',
-				globalstatus = true,
+				globalstatus = true
 			}
 		}
+	},
+	{
+		"sitiom/nvim-numbertoggle",
+		event = {"BufNewFile", "BufRead"},
+	},
+	{ -- Git
+		"lewis6991/gitsigns.nvim",
+		event = "VeryLazy",
+		config = true
 	},
 	{ -- Now Mode
 		"mvllow/modes.nvim",
 		event = {"BufNewFile", "BufRead"},
 		config = true
 	},
-	{ -- LSP: 稼働状況
-		"j-hui/fidget.nvim",
-		tag = "legacy",
-		dependencies = {
-			"neovim/nvim-lspconfig"
-		},
-		event = "LspAttach",
-		config = true
-	},
 	-- LLM
 	{
-		"Exafunction/codeium.vim",
-		cmd = "Codeium",
-		event = "InsertEnter",
-		keys = {
-			{"<Tab>", function() return vim.fn['codeium#Accept']() end, expr = true, mode = "i"}
+		"codota/tabnine-nvim",
+		build = "./dl_binaries.sh",
+		cmd = {
+			"TabnineLogin",
+			"TabnineToggle",
+			"TabnineStatus",
+			"TabnineHub",
+			"TabnineChat"
 		},
-		config = function()
-			vim.g.codeium_no_map_tab = 1
-		end
+		event = "InsertEnter",
+		main = "tabnine",
+		config = true
 	},
 	-- Utilities
 	{ -- 括弧
@@ -204,21 +311,26 @@ local plugins = {
 
 local opts = {
 	defaults = {
-		lazy = true,
+		lazy = true
+	},
+	checker = {
+		enabled = true
+	},
+	diff = {
+		cmd = "delta"
 	},
 	performance = {
-		cache = {
-			enabled = true,
-		},
-		disabled_plugins = {
-			"gzip",
-			"matchit",
-			"matchparen",
-			"netrwPlugin",
-			"tarPlugin",
-			"tohtml",
-			"tutor",
-			"zipPlugin"
+		rtp = {
+			disabled_plugins = {
+				"gzip",
+				"matchit",
+				"matchparen",
+				"netrwPlugin",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
+			}
 		}
 	}
 }
@@ -304,6 +416,8 @@ end
 
 -- }}}
 -- View {{{
+
+set.termguicolors = true
 
 -- 背景を黒ベースに
 set.background = 'dark'
