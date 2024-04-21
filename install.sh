@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
-# bun (node.js)
-# curl https://bun.sh/install | bash
+#zsh
+cp ./.zshrc ~/.zshrc
+
+# Git
+mkdir -p ~/.config/git
+cp ./git/* ~/.config/git
