@@ -379,6 +379,8 @@ set.inccommand = 'nosplit'
 -- }}}
 -- タブ/インデント {{{
 
+vim.g.editorconfig = true
+
 -- Tabキー押下時のカーソル移動幅
 set.softtabstop = 4
 

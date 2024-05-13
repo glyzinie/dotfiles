@@ -29,7 +29,8 @@ export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30
 # ---
 
 # bun
-path=(~/.bun/bin(N-/) $path)
+export BUN_INSTALL="$HOME/.bun"
+path=($BUN_INSTALL/bin(N-/) $path)
 
 # Go
 export GOPATH="$XDG_DATA_HOME/go"
@@ -467,3 +468,8 @@ if [[ -n $XDG_CACHE_HOME/zcompdump(#qN.mh+24) ]]; then
 else
 	compinit -C -d $XDG_CACHE_HOME/zcompdump
 fi
+
+[ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
+
+# bun completions
+[ -s "/Users/ress/.bun/_bun" ] && source "/Users/ress/.bun/_bun"
