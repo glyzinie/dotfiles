@@ -51,15 +51,25 @@ local plugins = {
 			vim.cmd.colorscheme("tokyonight")
 		end
 	},
+	{
+		"rachartier/tiny-devicons-auto-colors.nvim",
+		dependencies = {
+			"nvim-tree/nvim-web-devicons"
+		},
+		event = "VeryLazy",
+		config = true
+	},
+	{
+		"brenoprata10/nvim-highlight-colors",
+		event = "VeryLazy",
+		config = true
+	},
 	-- Notify
 	{
 		"rcarriga/nvim-notify",
 		event = "VeryLazy",
 		config = function()
-			local notify = require("notify")
-			notify.setup()
-
-			vim.notify = notify
+			vim.notify = require("notify")
 		end
 	},
 	-- Tree sitter
@@ -102,7 +112,7 @@ local plugins = {
 		},
 		config = function()
 			require('lsp-notify').setup({
-				notify = require('notify'),
+				notify = require('notify')
 			})
 		end
 	},
@@ -123,16 +133,9 @@ local plugins = {
 		opts = {
 			ui = {
 				check_outdated_packages_on_open = false,
-				border = 'single',
+				border = 'single'
 			}
 		}
-	},
-	{
-		"RubixDev/mason-update-all",
-		dependencies = {
-			"williamboman/mason.nvim"
-		},
-		cmd = "MasonUpdateAll"
 	},
 	{ -- LSP
 		"williamboman/mason-lspconfig.nvim",
@@ -180,7 +183,7 @@ local plugins = {
 					null_ls.builtins.completion.spell,
 					null_ls.builtins.diagnostics.todo_comments,
 					null_ls.builtins.diagnostics.trail_space,
-					null_ls.builtins.hover.dictionary,
+					null_ls.builtins.hover.dictionary
 				}
 			})
 		end
@@ -190,27 +193,18 @@ local plugins = {
 		event = { 'BufReadPre', 'BufNewFile' },
 		dependencies = {
 			"williamboman/mason.nvim",
-			'nvimtools/none-ls.nvim',
+			'nvimtools/none-ls.nvim'
 		},
 		opts = {
 			handlers = {}
 		}
 	},
-	{ -- TODO: 要検討
+	{
 		"folke/trouble.nvim",
 		dependencies = {
 			"nvim-tree/nvim-web-devicons"
 		},
 		cmd = {"Trouble", "TroubleToggle"},
-		config = true
-	},
-	{ -- TODO: 要検討
-		"nvimdev/lspsaga.nvim",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-tree/nvim-web-devicons"
-		},
-		cmd = "Lspsaga",
 		config = true
 	},
 	-- View
@@ -245,9 +239,10 @@ local plugins = {
 			}
 		}
 	},
-	{
-		"sitiom/nvim-numbertoggle",
-		event = {"BufNewFile", "BufRead"},
+	{ -- indent
+		"shellRaining/hlchunk.nvim",
+		event = "UIEnter",
+		config = true
 	},
 	{ -- Git
 		"lewis6991/gitsigns.nvim",
@@ -258,6 +253,10 @@ local plugins = {
 		"mvllow/modes.nvim",
 		event = {"BufNewFile", "BufRead"},
 		config = true
+	},
+	{
+		"sitiom/nvim-numbertoggle",
+		event = {"BufNewFile", "BufRead"},
 	},
 	-- LLM
 	{
@@ -329,7 +328,7 @@ local opts = {
 				"tarPlugin",
 				"tohtml",
 				"tutor",
-				"zipPlugin",
+				"zipPlugin"
 			}
 		}
 	}
@@ -356,7 +355,7 @@ set.keywordprg = ':help'
 set.whichwrap = 'b,s,h,l,<,>,[,]'
 
 -- Toggle paste
-set.pastetoggle = '<F2>'
+--set.pastetoggle = '<F2>'
 
 -- grep
 if vim.fn.executable('rg') == 1 then

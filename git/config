@@ -3,7 +3,7 @@
 	pager = delta
 [user]
 	name = Wis
-	email = 149991443+glyzinie@users.noreply.github.com.
+	email = 149991443+glyzinie@users.noreply.github.com
 # ---
 [alias]
 	last = log -1 HEAD
