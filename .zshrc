@@ -476,3 +476,7 @@ fi
 
 # bun completions
 [ -s "/Users/ress/.bun/_bun" ] && source "/Users/ress/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

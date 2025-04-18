@@ -35,6 +35,7 @@ killall SystemUIServer
 
 # LaunchPad 初期化
 defaults write com.apple.dock ResetLaunchPad -bool true && killall Dock
+#sudo find 2>/dev/null /private/var/folders/ -type d -name com.apple.dock.launchpad -exec rm -rf {} +; killall Dock
 
 # .DS_Store を削除
 find ~ -name '.DS_Store' -type f -ls -delete
