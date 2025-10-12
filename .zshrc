@@ -41,7 +41,7 @@ export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 path=($CARGO_HOME/bin(N-/) $path)
 
-# Py
+# Python
 path=(~/Library/Python/3.9/bin(N-/) $path)
 
 # ---
@@ -472,11 +472,5 @@ else
 	compinit -C -d $XDG_CACHE_HOME/zcompdump
 fi
 
-[ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
-
 # bun completions
-[ -s "/Users/ress/.bun/_bun" ] && source "/Users/ress/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+[ -s "/Users/wis/.bun/_bun" ] && source "/Users/wis/.bun/_bun"

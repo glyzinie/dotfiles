@@ -16,10 +16,10 @@ end)
 return {
 	default_prog = {"/bin/zsh", "--login"},
 	window_background_opacity = 0.85,
-	font = wezterm.font_with_fallback({
-		{family = "UDEV Gothic 35JPDOC"},
-		{family = "UDEV Gothic 35NFLG", assume_emoji_presentation = true},
-	}),
+	--font = wezterm.font_with_fallback({
+	--	{family = "UDEV Gothic 35JPDOC"},
+	--	{family = "UDEV Gothic 35NFLG", assume_emoji_presentation = true},
+	--}),
 	use_ime = true,
 	font_size = 12.0,
 	color_scheme = "Tokyo Night",
