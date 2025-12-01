@@ -75,9 +75,8 @@ local plugins = {
 	-- Tree sitter
 	{
 		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
 		build = ':TSUpdate',
-		event = "VeryLazy",
-		main = 'nvim-treesitter.configs',
 		opts = {
 			ensure_installed = "all",
 			auto_install = true,
@@ -117,7 +116,7 @@ local plugins = {
 		end
 	},
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		build = ":MasonUpdate",
 		dependencies = {
 			"neovim/nvim-lspconfig"
@@ -137,75 +136,19 @@ local plugins = {
 			}
 		}
 	},
-	{ -- LSP
-		"williamboman/mason-lspconfig.nvim",
+	{
+		"mason-org/mason-lspconfig.nvim",
 		dependencies = {
-			"williamboman/mason.nvim"
+			"mason-org/mason.nvim"
 		},
 		cmd = {"LspInstall", "LspUninstall"},
-		config = function()
-			require('mason-lspconfig').setup{
-				automatic_installation = true,
-				ensure_installed = {
-					'denols',
-					'lua_ls'
-				}
-			}
-			require('mason-lspconfig').setup_handlers{
-				function(server_name)
-					require('lspconfig')[server_name].setup({})
-				end,
-				["lua_ls"] = function ()
-					lspconfig.lua_ls.setup {
-						settings = {
-							Lua = {
-								diagnostics = {
-									globals = { "vim" }
-								}
-							}
-						}
-					}
-				end
-			}
-		end
-	},
-	{
-		"nvimtools/none-ls.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim"
-		},
-		main = "null-ls",
-		config = function()
-			local null_ls = require("null-ls")
-			null_ls.setup({
-				sources = {
-					-- https://github.com/nvimtools/none-ls.nvim/blob/main/doc/BUILTINS.md
-					null_ls.builtins.completion.spell,
-					null_ls.builtins.diagnostics.todo_comments,
-					null_ls.builtins.diagnostics.trail_space,
-					null_ls.builtins.hover.dictionary
-				}
-			})
-		end
+		config = true
 	},
 	{ -- Linters, Formatters
-		'jay-babu/mason-null-ls.nvim',
-		event = { 'BufReadPre', 'BufNewFile' },
-		dependencies = {
-			"williamboman/mason.nvim",
-			'nvimtools/none-ls.nvim'
-		},
+		"stevearc/conform.nvim",
 		opts = {
-			handlers = {}
+			formatters_by_ft = {}
 		}
-	},
-	{
-		"folke/trouble.nvim",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons"
-		},
-		cmd = {"Trouble", "TroubleToggle"},
-		config = true
 	},
 	-- View
 	{
@@ -238,11 +181,6 @@ local plugins = {
 				globalstatus = true
 			}
 		}
-	},
-	{ -- indent
-		"shellRaining/hlchunk.nvim",
-		event = "UIEnter",
-		config = true
 	},
 	{ -- Git
 		"lewis6991/gitsigns.nvim",
