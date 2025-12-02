@@ -198,18 +198,18 @@ local plugins = {
 	},
 	-- LLM
 	{
-		"codota/tabnine-nvim",
-		build = "./dl_binaries.sh",
-		cmd = {
-			"TabnineLogin",
-			"TabnineToggle",
-			"TabnineStatus",
-			"TabnineHub",
-			"TabnineChat"
-		},
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
 		event = "InsertEnter",
-		main = "tabnine",
-		config = true
+		opts = {
+			suggestion = {
+				enabled = true,
+				auto_trigger = true
+			},
+			panel = {
+				enabled = false
+			}
+		}
 	},
 	-- Utilities
 	{ -- 括弧

@@ -36,13 +36,13 @@ path=($BUN_INSTALL/bin(N-/) $path)
 export GOPATH="$XDG_DATA_HOME/go"
 path=($GOPATH/bin(N-/) $path)
 
+# mise
+path=(~/.local/share/mise/shims(N-/) $path)
+
 # Rust
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 path=($CARGO_HOME/bin(N-/) $path)
-
-# Python
-path=(~/Library/Python/3.9/bin(N-/) $path)
 
 # ---
 
