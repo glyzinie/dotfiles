@@ -49,6 +49,8 @@ local plugins = {
 		event = "VeryLazy",
 		config = function()
 			vim.cmd.colorscheme("tokyonight")
+			vim.opt.background = 'dark'
+			--vim.opt.background = 'light'
 		end
 	},
 	{
@@ -185,11 +187,6 @@ local plugins = {
 	{ -- Git
 		"lewis6991/gitsigns.nvim",
 		event = "VeryLazy",
-		config = true
-	},
-	{ -- Now Mode
-		"mvllow/modes.nvim",
-		event = {"BufNewFile", "BufRead"},
 		config = true
 	},
 	{
@@ -357,9 +354,6 @@ end
 -- View {{{
 
 set.termguicolors = true
-
--- 背景を黒ベースに
-set.background = 'dark'
 
 -- 行番号を表示する
 set.number = true

@@ -28,6 +28,14 @@ export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30
 
 # ---
 
+# Homebrew
+export HOMEBREW_NO_ENV_HINTS=1
+
+# mise
+path=(~/.local/share/mise/shims(N-/) $path)
+
+# ---
+
 # bun
 export BUN_INSTALL="$HOME/.bun"
 path=($BUN_INSTALL/bin(N-/) $path)
@@ -35,9 +43,6 @@ path=($BUN_INSTALL/bin(N-/) $path)
 # Go
 export GOPATH="$XDG_DATA_HOME/go"
 path=($GOPATH/bin(N-/) $path)
-
-# mise
-path=(~/.local/share/mise/shims(N-/) $path)
 
 # Rust
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
@@ -471,6 +476,3 @@ if [[ -n $XDG_CACHE_HOME/zcompdump(#qN.mh+24) ]]; then
 else
 	compinit -C -d $XDG_CACHE_HOME/zcompdump
 fi
-
-# bun completions
-[ -s "/Users/wis/.bun/_bun" ] && source "/Users/wis/.bun/_bun"
