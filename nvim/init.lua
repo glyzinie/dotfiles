@@ -49,7 +49,10 @@ local plugins = {
 		event = "VeryLazy",
 		config = function()
 			vim.cmd.colorscheme("tokyonight")
-		end
+			--vim.opt.background = 'dark'
+			vim.opt.background = 'light'
+		end,
+		opts = {style = "day"}
 	},
 	{
 		"rachartier/tiny-devicons-auto-colors.nvim",
@@ -177,7 +180,7 @@ local plugins = {
 		event = {"BufNewFile", "BufRead"},
 		opts = {
 			options = {
-				theme = 'tokyonight',
+				theme = 'tokyonight-day',
 				globalstatus = true
 			}
 		}
@@ -357,9 +360,6 @@ end
 -- View {{{
 
 set.termguicolors = true
-
--- 背景を黒ベースに
-set.background = 'dark'
 
 -- 行番号を表示する
 set.number = true
