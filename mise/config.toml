@@ -1,0 +1,28 @@
+[tools]
+# runtime
+go = "1"
+node = "lts"
+rust = "stable"
+
+bun = "latest"
+uv = "latest"
+
+# CLI
+bat = "latest"
+delta = "latest"
+doggo = "latest"
+eza = "latest"
+fd = "latest"
+ghq = "latest"
+github-cli = "latest"
+jq = "latest"
+ripgrep = "latest"
+
+[settings]
+experimental = true
+
+[settings.node]
+compile = false
+
+[settings.python]
+compile = false
