@@ -53,27 +53,6 @@ local plugins = {
 			--vim.opt.background = 'light'
 		end
 	},
-	{
-		"rachartier/tiny-devicons-auto-colors.nvim",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons"
-		},
-		event = "VeryLazy",
-		config = true
-	},
-	{
-		"brenoprata10/nvim-highlight-colors",
-		event = "VeryLazy",
-		config = true
-	},
-	-- Notify
-	{
-		"rcarriga/nvim-notify",
-		event = "VeryLazy",
-		config = function()
-			vim.notify = require("notify")
-		end
-	},
 	-- Tree sitter
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -106,46 +85,6 @@ local plugins = {
 			vim.diagnostic.config({severity_sort = true})
 		end
 	},
-	{
-		"mrded/nvim-lsp-notify",
-		dependencies = {
-			"rcarriga/nvim-notify"
-		},
-		config = function()
-			require('lsp-notify').setup({
-				notify = require('notify')
-			})
-		end
-	},
-	{
-		"mason-org/mason.nvim",
-		build = ":MasonUpdate",
-		dependencies = {
-			"neovim/nvim-lspconfig"
-		},
-		event = 'BufReadPre',
-		cmd = {
-			"Mason",
-			"MasonInstall",
-			"MasonUninstall",
-			"MasonUninstallAll",
-			"MasonUpdate"
-		},
-		opts = {
-			ui = {
-				check_outdated_packages_on_open = false,
-				border = 'single'
-			}
-		}
-	},
-	{
-		"mason-org/mason-lspconfig.nvim",
-		dependencies = {
-			"mason-org/mason.nvim"
-		},
-		cmd = {"LspInstall", "LspUninstall"},
-		config = true
-	},
 	{ -- Linters, Formatters
 		"stevearc/conform.nvim",
 		opts = {
@@ -153,15 +92,6 @@ local plugins = {
 		}
 	},
 	-- View
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify"
-		},
-		config = true
-	},
 	{
 		"akinsho/bufferline.nvim",
 		dependencies = {
@@ -237,8 +167,8 @@ local plugins = {
 		"kana/vim-smartword",
 		keys = {
 			{"w", "<Plug>(smartword-w)"},
-			{"b", "<Plug>(smartword-w)"},
-			{"e", "<Plug>(smartword-w)"}
+			{"b", "<Plug>(smartword-b)"},
+			{"e", "<Plug>(smartword-e)"}
 		}
 	}
 }
@@ -266,6 +196,9 @@ local opts = {
 				"zipPlugin"
 			}
 		}
+	},
+	rocks = {
+		hererocks = false
 	}
 }
 
