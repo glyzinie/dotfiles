@@ -53,6 +53,25 @@ local plugins = {
 			--vim.opt.background = 'light'
 		end
 	},
+	{ -- icon
+		'nvim-mini/mini.icons',
+		config = true,
+		--[[
+		config = function()
+			require('mini.icons').setup()
+			-- nvim-web-devicons 互換
+			MiniIcons.mock_nvim_web_devicons()
+		end,
+		--]]
+	},
+	{ -- 通知 UI
+		'nvim-mini/mini.notify',
+		event = 'VeryLazy',
+		config = function()
+			require('mini.notify').setup()
+			vim.notify = require('mini.notify').make_notify()
+		end,
+	},
 	-- Tree sitter
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -85,7 +104,8 @@ local plugins = {
 			vim.diagnostic.config({severity_sort = true})
 		end
 	},
-	{ -- Linters, Formatters
+	-- Linters, Formatters
+	{
 		"stevearc/conform.nvim",
 		opts = {
 			formatters_by_ft = {}
@@ -93,35 +113,75 @@ local plugins = {
 	},
 	-- View
 	{
-		"akinsho/bufferline.nvim",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons"
-		},
-		event = {"BufNewFile", "BufRead"},
-		config = true
+		'nvim-mini/mini.tabline',
+		dependencies = { 'nvim-mini/mini.icons' },
+		event = 'VeryLazy',
+		config = true,
 	},
 	{
-		"nvim-lualine/lualine.nvim",
-		dependencies = {
-			"folke/tokyonight.nvim",
-			"nvim-tree/nvim-web-devicons"
-		},
-		event = {"BufNewFile", "BufRead"},
-		opts = {
-			options = {
-				theme = 'tokyonight',
-				globalstatus = true
-			}
-		}
+		'nvim-mini/mini.statusline',
+		event = 'VeryLazy',
+		dependencies = { 'nvim-mini/mini.icons' },
+		config = true,
 	},
-	{ -- Git
-		"lewis6991/gitsigns.nvim",
-		event = "VeryLazy",
-		config = true
+	{ -- Git diff
+		'nvim-mini/mini.diff',
+		event = { 'BufReadPost', 'BufNewFile' },
+		config = true,
+	},
+	{ -- インデント
+		'nvim-mini/mini.indentscope',
+		event = { 'BufReadPost', 'BufNewFile' },
+		config = function()
+			require('mini.indentscope').setup({
+				draw = {
+					animation = require('mini.indentscope').gen_animation.none(),
+				},
+			})
+		end,
+	},
+	{ -- カーソル下単語のハイライト
+		'nvim-mini/mini.cursorword',
+		event = { 'BufReadPost', 'BufNewFile' },
+		config = true,
 	},
 	{
 		"sitiom/nvim-numbertoggle",
 		event = {"BufNewFile", "BufRead"},
+	},
+	{ -- 行末空白の可視化と削除
+		'nvim-mini/mini.trailspace',
+		event = { 'BufReadPost', 'BufNewFile' },
+		config = true,
+		keys = {
+			{
+				'<leader>tw',
+				function()
+					MiniTrailspace.trim()
+					MiniTrailspace.trim_last_lines()
+				end,
+				desc = 'Trim trailing whitespace',
+			},
+		},
+	},
+	{ -- TODO / FIXME / HACK / NOTE / HEX color
+		'nvim-mini/mini.hipatterns',
+		event = { 'BufReadPost', 'BufNewFile' },
+		config = function()
+			local hipatterns = require('mini.hipatterns')
+
+			hipatterns.setup({
+				highlighters = {
+					fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+					hack  = { pattern = '%f[%w]()HACK()%f[%W]',  group = 'MiniHipatternsHack'  },
+					todo  = { pattern = '%f[%w]()TODO()%f[%W]',  group = 'MiniHipatternsTodo'  },
+					note  = { pattern = '%f[%w]()NOTE()%f[%W]',  group = 'MiniHipatternsNote'  },
+
+					-- #ffffff などの HEX color を実際の色で表示する
+					hex_color = hipatterns.gen_highlighter.hex_color(),
+				},
+			})
+		end,
 	},
 	-- LLM
 	{
@@ -140,14 +200,9 @@ local plugins = {
 	},
 	-- Utilities
 	{ -- 括弧
-		"windwp/nvim-autopairs",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter"
-		},
-		event = "InsertEnter",
-		opts = {
-			check_ts = true
-		}
+		'nvim-mini/mini.pairs',
+		event = 'InsertEnter',
+		config = true,
 	},
 	{
 		"rainbowhxch/accelerated-jk.nvim",
@@ -170,7 +225,35 @@ local plugins = {
 			{"b", "<Plug>(smartword-b)"},
 			{"e", "<Plug>(smartword-e)"}
 		}
-	}
+	},
+	-- ファイラー
+	{
+		'nvim-mini/mini.files',
+		dependencies = { 'nvim-mini/mini.icons' },
+		config = true,
+		keys = {
+			{
+				'<leader>e',
+				function()
+					require('mini.files').open(vim.api.nvim_buf_get_name(0), false)
+				end,
+				desc = 'Open mini.files',
+			},
+			{
+				'<leader>E',
+				function()
+					require('mini.files').open(vim.uv.cwd(), false)
+				end,
+				desc = 'Open mini.files cwd',
+			},
+		},
+	},
+	-- surround 操作
+	{
+		'nvim-mini/mini.surround',
+		event = 'VeryLazy',
+		config = true,
+	},
 }
 
 local opts = {
