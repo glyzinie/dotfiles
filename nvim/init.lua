@@ -46,11 +46,12 @@ local plugins = {
 	-- Color Scheme
 	{
 		"folke/tokyonight.nvim",
-		event = "VeryLazy",
+		--event = 'VeryLazy',
+		lazy = false,
 		config = function()
-			vim.cmd.colorscheme("tokyonight")
 			vim.opt.background = 'dark'
 			--vim.opt.background = 'light'
+			vim.cmd.colorscheme('tokyonight')
 		end
 	},
 	{ -- icon
@@ -74,8 +75,8 @@ local plugins = {
 	},
 	-- Tree sitter
 	{
-		"nvim-treesitter/nvim-treesitter",
-		branch = "main",
+		'nvim-treesitter/nvim-treesitter',
+		branch = 'main',
 		build = ':TSUpdate',
 		opts = {
 			ensure_installed = "all",
@@ -97,9 +98,9 @@ local plugins = {
 	},
 	-- Language Server Protocol
 	{
-		"neovim/nvim-lspconfig",
-		event = "VeryLazy",
-		cmd = "LspInfo",
+		'neovim/nvim-lspconfig',
+		event = {'BufReadPre', 'BufNewFile'},
+		cmd = {'LspInfo', 'LspStart', 'LspStop', 'LspRestart'},
 		config = function()
 			vim.diagnostic.config({severity_sort = true})
 		end
@@ -107,6 +108,8 @@ local plugins = {
 	-- Linters, Formatters
 	{
 		"stevearc/conform.nvim",
+		event = 'BufWritePre',
+		cmd = 'ConformInfo',
 		opts = {
 			formatters_by_ft = {}
 		}
@@ -114,24 +117,26 @@ local plugins = {
 	-- View
 	{
 		'nvim-mini/mini.tabline',
-		dependencies = { 'nvim-mini/mini.icons' },
-		event = 'VeryLazy',
+		dependencies = {'nvim-mini/mini.icons'},
+		--event = 'VeryLazy',
+		lazy = false,
 		config = true,
 	},
 	{
 		'nvim-mini/mini.statusline',
-		event = 'VeryLazy',
-		dependencies = { 'nvim-mini/mini.icons' },
+		dependencies = {'nvim-mini/mini.icons'},
+		--event = 'VeryLazy',
+		lazy = false,
 		config = true,
 	},
 	{ -- Git diff
 		'nvim-mini/mini.diff',
-		event = { 'BufReadPost', 'BufNewFile' },
+		event = {'BufReadPost', 'BufNewFile'},
 		config = true,
 	},
 	{ -- インデント
 		'nvim-mini/mini.indentscope',
-		event = { 'BufReadPost', 'BufNewFile' },
+		event = {'BufReadPost', 'BufNewFile'},
 		config = function()
 			require('mini.indentscope').setup({
 				draw = {
@@ -142,16 +147,16 @@ local plugins = {
 	},
 	{ -- カーソル下単語のハイライト
 		'nvim-mini/mini.cursorword',
-		event = { 'BufReadPost', 'BufNewFile' },
+		event = {'BufReadPost', 'BufNewFile'},
 		config = true,
 	},
 	{
 		"sitiom/nvim-numbertoggle",
-		event = {"BufNewFile", "BufRead"},
+		event = {'BufNewFile', 'BufRead'},
 	},
 	{ -- 行末空白の可視化と削除
 		'nvim-mini/mini.trailspace',
-		event = { 'BufReadPost', 'BufNewFile' },
+		event = {'BufReadPost', 'BufNewFile'},
 		config = true,
 		keys = {
 			{
@@ -166,28 +171,26 @@ local plugins = {
 	},
 	{ -- TODO / FIXME / HACK / NOTE / HEX color
 		'nvim-mini/mini.hipatterns',
-		event = { 'BufReadPost', 'BufNewFile' },
+		event = {'BufReadPost', 'BufNewFile'},
 		config = function()
-			local hipatterns = require('mini.hipatterns')
-
-			hipatterns.setup({
+			require('mini.hipatterns').setup({
 				highlighters = {
 					fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
-					hack  = { pattern = '%f[%w]()HACK()%f[%W]',  group = 'MiniHipatternsHack'  },
-					todo  = { pattern = '%f[%w]()TODO()%f[%W]',  group = 'MiniHipatternsTodo'  },
-					note  = { pattern = '%f[%w]()NOTE()%f[%W]',  group = 'MiniHipatternsNote'  },
+					hack = { pattern = '%f[%w]()HACK()%f[%W]', group = 'MiniHipatternsHack' },
+					todo = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
+					note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
 
 					-- #ffffff などの HEX color を実際の色で表示する
-					hex_color = hipatterns.gen_highlighter.hex_color(),
+					hex_color = require('mini.hipatterns').gen_highlighter.hex_color(),
 				},
 			})
 		end,
 	},
 	-- LLM
 	{
-		"zbirenbaum/copilot.lua",
-		cmd = "Copilot",
-		event = "InsertEnter",
+		'zbirenbaum/copilot.lua',
+		cmd = 'Copilot',
+		event = 'InsertEnter',
 		opts = {
 			suggestion = {
 				enabled = true,
@@ -229,7 +232,7 @@ local plugins = {
 	-- ファイラー
 	{
 		'nvim-mini/mini.files',
-		dependencies = { 'nvim-mini/mini.icons' },
+		dependencies = {'nvim-mini/mini.icons'},
 		config = true,
 		keys = {
 			{
@@ -431,7 +434,7 @@ map('n', '<CR>', ':<C-u>call append(".", "")<CR>', silent)
 -- <Tab>: 次のバッファへ
 map('n', '<Tab>', ':bnext<CR>', silent)
 
---  MiddleMouse の無効化
+-- MiddleMouse の無効化
 map('', '<MiddleMouse>', '<Nop>', remap)
 map('', '<2-MiddleMouse>', '<Nop>', remap)
 map('', '<3-MiddleMouse>', '<Nop>', remap)
