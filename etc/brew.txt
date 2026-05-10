@@ -1,0 +1,17 @@
+colima
+curl
+deno
+docker
+docker-buildx
+docker-compose
+docker-credential-helper
+fzy
+hugo
+lego
+mas
+mise
+neovim
+qrencode
+tig
+wgcf
+wireguard-tools
