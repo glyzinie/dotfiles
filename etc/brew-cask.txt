@@ -1,21 +1,15 @@
 1password
 alacritty
-appcleaner
 azookey
-balenaetcher
 chatgpt
 codex-app
 discord
 google-chrome
-hhkb-studio
-localsend
 microsoft-auto-update
 microsoft-excel
 microsoft-powerpoint
 microsoft-word
-minecraft
 obsidian
-ollama-app
 orion
 secretive
 sublime-text
@@ -23,4 +17,3 @@ tailscale-app
 visual-studio-code
 vlc
 windows-app
-yubico-authenticator
