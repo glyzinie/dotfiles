@@ -17,7 +17,7 @@ export EDITOR='nvim'
 export PAGER='less'
 
 # CD
-cdpath=(~ ~/.local/src/github.com/glyzinie)
+cdpath=(~ ~/.local/src/github.com/glyzinie ~/Obsidian)
 
 # Less
 export LESS='-R -f -X -i -P ?f%f:(stdin). ?lb%lb?L/%L.. [?eEOF:?pb%pb\%..]'

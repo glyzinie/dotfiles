@@ -3,7 +3,6 @@ go = "1"
 node = "lts"
 rust = "stable"
 
-aube = "latest"
 bun = "latest"
 uv = "latest"
 
@@ -18,6 +17,9 @@ ripgrep = "latest"
 
 doggo = "latest"
 jq = "latest"
+"npm:obsidian-headless"  = "latest"
+"github:trasta298/keifu" = "latest"
+"github:k1LoW/mo" = "latest"
 
 [settings]
 experimental = true
