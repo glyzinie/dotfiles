@@ -1,8 +1,9 @@
 1password
 alacritty
-azookey
+appcleaner
+balenaetcher
 chatgpt
-codex-app
+chatgpt-classic
 discord
 google-chrome
 microsoft-auto-update
@@ -10,6 +11,8 @@ microsoft-excel
 microsoft-powerpoint
 microsoft-word
 obsidian
+ollama-app
+opencode-desktop
 orion
 secretive
 sublime-text

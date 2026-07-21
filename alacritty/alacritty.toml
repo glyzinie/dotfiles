@@ -22,6 +22,15 @@ resize_increments = true
 dynamic_padding = true
 #decorations = "Buttonless"
 
+[scrolling]
+history = 100000
+multiplier = 3
+
+[keyboard]
+bindings = [
+  { key = "V", mods = "Command", action = "Paste" },
+]
+
 # Colors {{{
 # -----------------------------------------------------------------------------
 # TokyoNight Alacritty Colors

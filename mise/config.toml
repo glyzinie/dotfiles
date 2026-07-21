@@ -10,13 +10,14 @@ github-cli = "latest"
 
 bat = "latest"
 delta = "latest"
-eza = "latest"
+eza = "0.23.4" #"latest"
 fd = "latest"
 ghq = "latest"
 ripgrep = "latest"
 
 doggo = "latest"
 jq = "latest"
+
 "npm:obsidian-headless"  = "latest"
 "github:trasta298/keifu" = "latest"
 "github:k1LoW/mo" = "latest"
@@ -29,3 +30,6 @@ compile = false
 
 [settings.python]
 compile = false
+
+[settings.pipx]
+uvx = true

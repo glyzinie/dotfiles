@@ -70,6 +70,16 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
 # ---
 
+# Apple container
+export CONTAINER_DEFAULT_PLATFORM="linux/arm64"
+
+# Docker
+export DOCKER_DEFAULT_PLATFORM="linux/arm64"
+
+#export DOCKER_HOST="unix:///opt/homebrew/var/run/socktainer/.socktainer/container.sock"
+
+# ---
+
 path=(~/.local/bin(N-/) $path ~/.local/share/nvim/mason/bin(N-/))
 # }}}
 # Alias {{{
