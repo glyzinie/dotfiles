@@ -31,14 +31,15 @@ export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30
 # Homebrew
 export HOMEBREW_NO_ENV_HINTS=1
 
-# mise
-path=(~/.local/share/mise/shims(N-/) $path)
-
 # ---
 
 # bun
-export BUN_INSTALL="$HOME/.bun"
+export BUN_INSTALL="$XDG_DATA_HOME/bun"
 path=($BUN_INSTALL/bin(N-/) $path)
+
+# fnm
+# fnm install --lts
+path=(~/.local/share/fnm/aliases/default/bin(N-/) $path)
 
 # Go
 export GOPATH="$XDG_DATA_HOME/go"
@@ -59,11 +60,6 @@ fi
 # GHQ
 export GHQ_ROOT="$HOME/.local/src"
 
-# Mocword
-if [[ -f "$XDG_DATA_HOME/mocword/mocword.sqlite" ]]; then
-	export MOCWORD_DATA="$XDG_DATA_HOME/mocword/mocword.sqlite"
-fi
-
 # fzf
 # TODO: 調整
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
@@ -74,9 +70,17 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 export CONTAINER_DEFAULT_PLATFORM="linux/arm64"
 
 # Docker
+export DOCKER_CONFIG="$XDG_CONFIG_HOME/docker"
 export DOCKER_DEFAULT_PLATFORM="linux/arm64"
 
-#export DOCKER_HOST="unix:///opt/homebrew/var/run/socktainer/.socktainer/container.sock"
+# ---
+
+# platformio-core
+export PLATFORMIO_CORE_DIR="$XDG_DATA_HOME/platformio"
+
+# ncurses
+export TERMINFO="$XDG_DATA_HOME/terminfo"
+export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/opt/homebrew/opt/ncurses/share/terminfo:/usr/share/terminfo"
 
 # ---
 
@@ -85,10 +89,10 @@ path=(~/.local/bin(N-/) $path ~/.local/share/nvim/mason/bin(N-/))
 # Alias {{{
 # LS
 if (( $+commands[eza] )); then
-	alias ls="eza --group-directories-first --icons"
-	alias la="eza -a --group-directories-first --icons"
-	alias ll="eza -l --group-directories-first --icons --git --time-style=relative"
-	alias lla="eza -la --group-directories-first --icons --git --time-style=relative"
+	alias ls="eza --group-directories-first --icons auto"
+	alias la="eza -a --group-directories-first --icons auto"
+	alias ll="eza -l --group-directories-first --icons auto --git --time-style=relative"
+	alias lla="eza -la --group-directories-first --icons auto --git --time-style=relative"
 else
 	if (( $+commands[sw_vers] )); then
 		alias ls='ls -F -G'
@@ -244,7 +248,8 @@ g() {
 }
 # }}}
 # Hist {{{
-export HISTFILE="$XDG_DATA_HOME/zsh/history"
+[[ -d "$XDG_CACHE_HOME/zsh" ]] || mkdir -p "$XDG_CACHE_HOME/zsh"
+export HISTFILE="$XDG_STATE_HOME/zsh/history"
 export HISTSIZE=10000
 export SAVEHIST=1000000000
 if [ $UID = 0 ]; then

@@ -187,20 +187,6 @@ local plugins = {
 		end,
 	},
 	-- LLM
-	{
-		'zbirenbaum/copilot.lua',
-		cmd = 'Copilot',
-		event = 'InsertEnter',
-		opts = {
-			suggestion = {
-				enabled = true,
-				auto_trigger = true
-			},
-			panel = {
-				enabled = false
-			}
-		}
-	},
 	-- Utilities
 	{ -- 括弧
 		'nvim-mini/mini.pairs',
